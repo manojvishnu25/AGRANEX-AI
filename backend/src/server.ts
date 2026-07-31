@@ -1618,8 +1618,9 @@ io.on('connection', (socket) => {
   });
 });
 
-// Only start listening when not running in Vercel's serverless environment
-if (!process.env.VERCEL) {
+// Only start listening when not running in Vercel's Serverless environment (e.g. run locally, or inside a persistent Vercel Web Service container)
+const isVercelServerless = !!(process.env.VERCEL && process.env.AWS_REGION);
+if (!isVercelServerless) {
   server.listen(PORT, () => {
     console.log(`[AGRANEX SERVER] Running on port ${PORT}`);
   });
